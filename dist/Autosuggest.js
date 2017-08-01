@@ -196,7 +196,7 @@ var Autosuggest = function (_Component) {
       } else {
         highlightReset = {};
       }
-      this.setState(_extends({}, inputProps, {
+      this.setState(_extends({}, highlightReset, {
         valueBeforeUpDown: null,
         isCollapsed: true
       }));
