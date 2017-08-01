@@ -153,17 +153,20 @@ var Autosuggest = function (_Component) {
     key: 'resetHighlightedSuggestion',
     value: function resetHighlightedSuggestion() {
       var shouldResetValueBeforeUpDown = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      var _props2 = this.props;
+      var canReset = _props2.canResetHighlightedSuggestion;
+      // In the case it's undefined we still want to allow it
+      if (canReset !== false) {
+        this.setState(function (state) {
+          var valueBeforeUpDown = state.valueBeforeUpDown;
 
-      this.setState(function (state) {
-        var valueBeforeUpDown = state.valueBeforeUpDown;
-
-
-        return {
-          highlightedSectionIndex: null,
-          highlightedSuggestionIndex: null,
-          valueBeforeUpDown: shouldResetValueBeforeUpDown ? null : valueBeforeUpDown
-        };
-      });
+          return {
+            highlightedSectionIndex: null,
+            highlightedSuggestionIndex: null,
+            valueBeforeUpDown: shouldResetValueBeforeUpDown ? null : valueBeforeUpDown
+          };
+        });
+      }
     }
   }, {
     key: 'revealSuggestions',
@@ -175,9 +178,10 @@ var Autosuggest = function (_Component) {
   }, {
     key: 'closeSuggestions',
     value: function closeSuggestions() {
+      // Removed to still highlight the full course after selecting a prefix
+      // highlightedSectionIndex: null,
+      // highlightedSuggestionIndex: null,
       this.setState({
-        highlightedSectionIndex: null,
-        highlightedSuggestionIndex: null,
         valueBeforeUpDown: null,
         isCollapsed: true
       });
@@ -522,6 +526,7 @@ var Autosuggest = function (_Component) {
 }(_react.Component);
 
 Autosuggest.propTypes = {
+  canResetHighlightedSuggestion: _propTypes2.default.bool,
   collapsed: _propTypes2.default.bool,
   suggestions: _propTypes2.default.array.isRequired,
   onSuggestionsFetchRequested: function onSuggestionsFetchRequested(props, propName) {
