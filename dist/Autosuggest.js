@@ -155,18 +155,25 @@ var Autosuggest = function (_Component) {
       var shouldResetValueBeforeUpDown = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
       var _props2 = this.props;
       var canReset = _props2.canResetHighlightedSuggestion;
+      var highlightReset;
       // In the case it's undefined we still want to allow it
-      if (canReset !== false) {
-        this.setState(function (state) {
-          var valueBeforeUpDown = state.valueBeforeUpDown;
-
-          return {
-            highlightedSectionIndex: null,
-            highlightedSuggestionIndex: null,
-            valueBeforeUpDown: shouldResetValueBeforeUpDown ? null : valueBeforeUpDown
-          };
-        });
+      if (canReset !== false || !shouldResetValueBeforeUpDown) {
+        highlightReset = {
+          highlightedSectionIndex: null,
+          highlightedSuggestionIndex: null
+        };
+      } else {
+        highlightReset = {};
       }
+
+      this.setState(function (state) {
+        var valueBeforeUpDown = state.valueBeforeUpDown;
+
+        return _extends({}, highlightReset, {
+          valueBeforeUpDown: shouldResetValueBeforeUpDown ? null : valueBeforeUpDown
+        });
+      });
+
     }
   }, {
     key: 'revealSuggestions',
@@ -179,12 +186,20 @@ var Autosuggest = function (_Component) {
     key: 'closeSuggestions',
     value: function closeSuggestions() {
       // Removed to still highlight the full course after selecting a prefix
-      // highlightedSectionIndex: null,
-      // highlightedSuggestionIndex: null,
-      this.setState({
+      var _props2 = this.props;
+      var highlightReset;
+      if (_props2.canResetHighlightedSuggestion) {
+        highlightReset = {
+          highlightedSectionIndex: null,
+          highlightedSuggestionIndex: null
+        };
+      } else {
+        highlightReset = {};
+      }
+      this.setState(_extends({}, inputProps, {
         valueBeforeUpDown: null,
         isCollapsed: true
-      });
+      }));
     }
   }, {
     key: 'getSuggestion',
