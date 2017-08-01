@@ -299,10 +299,11 @@ var Autosuggest = function (_Component) {
           alwaysRenderSuggestions = _props2.alwaysRenderSuggestions;
       var _state3 = this.state,
           isFocused = _state3.isFocused,
-          isCollapsed = _state3.isCollapsed,
           highlightedSectionIndex = _state3.highlightedSectionIndex,
           highlightedSuggestionIndex = _state3.highlightedSuggestionIndex,
           valueBeforeUpDown = _state3.valueBeforeUpDown;
+
+      var isCollapsed = _props2.collapsed !== undefined ? _props2.collapsed : _state3.isCollapsed;
 
       var shouldRenderSuggestions = alwaysRenderSuggestions ? alwaysTrue : this.props.shouldRenderSuggestions;
       var value = inputProps.value,
@@ -521,6 +522,7 @@ var Autosuggest = function (_Component) {
 }(_react.Component);
 
 Autosuggest.propTypes = {
+  collapsed: _propTypes2.default.bool,
   suggestions: _propTypes2.default.array.isRequired,
   onSuggestionsFetchRequested: function onSuggestionsFetchRequested(props, propName) {
     var onSuggestionsFetchRequested = props[propName];
